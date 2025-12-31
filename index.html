@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NavSphere - 极致精修版</title>
+    <title>Homepage - 简约版</title>
     <style>
         :root {
             --bg-side: #fafafa;
@@ -11,22 +11,21 @@
             --sidebar-width: 220px;
             --accent: #3b82f6;
             --border: #eeeeee;
-            --text-name: #333333;
-            --text-desc: #a0a0a0;
+            --text-gray: #888888;
+            --text-main: #333333;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, "Noto Sans SC", "Microsoft YaHei", sans-serif;
             background-color: var(--bg-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* 左侧边栏 - 文字加粗 */
+        /* 左侧边栏 - 文字变大变灰加粗 */
         aside {
             width: var(--sidebar-width);
             background: var(--bg-side);
@@ -39,156 +38,131 @@
 
         .brand {
             padding: 10px 24px 30px;
-            font-size: 1.25rem;
-            font-weight: 800; /* 品牌Logo保持加粗 */
-            color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #000;
+            text-transform: lowercase; /* 对应截图 homepage 风格 */
         }
 
         .nav-group { flex-grow: 1; overflow-y: auto; padding: 0 12px; }
 
         .nav-item {
             padding: 12px 20px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             border-radius: 10px;
             cursor: pointer;
-            color: #555;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            font-weight: 700; /* 要求1：左侧边栏文字加粗 */
+            color: var(--text-gray); /* 要求：文字灰色 */
+            font-size: 1.1rem;      /* 要求：大一号 */
+            font-weight: 700;       /* 要求：加粗 */
+            transition: all 0.2s;
         }
 
-        .nav-item:hover { background: #f0f0f0; color: #000; }
+        .nav-item:hover { color: #333; }
         .nav-item.active {
-            background: #ffffff;
             color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         /* 右侧内容区 */
         main {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 35px 50px;
+            padding: 30px 50px;
         }
 
         .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .current-category-title {
-            font-size: 1.35rem;
-            font-weight: 500; /* 要求2：右侧类目名不加粗 */
+            font-size: 1.4rem;
+            font-weight: 600; /* 要求：稍微加粗 */
             color: #1a1a1a;
         }
-
-        .search-wrapper input {
-            width: 280px;
-            padding: 11px 18px;
-            border: 1px solid #e8e8e8;
-            border-radius: 12px;
-            outline: none;
-            font-size: 0.9rem;
-            background: #fdfdfd;
-            transition: border 0.3s;
-        }
-        .search-wrapper input:focus { border-color: var(--accent); background: #fff; }
 
         /* 卡片网格 */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
         }
 
         .card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px; /* 要求3：每个内容稍微大一些 */
             text-decoration: none;
             display: flex;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s;
+            padding: 10px;
+            border-radius: 12px;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
-            border-color: #d1d1d1;
-        }
+        .card:hover { transform: translateX(5px); }
 
-        .logo-box {
-            width: 52px; /* 稍微放大Logo框 */
-            height: 52px;
-            background: #fcfcfc;
-            border: 1px solid #f2f2f2;
-            border-radius: 14px;
-            margin-right: 18px;
+        /* Logo 样式：去掉外框，高度自适应 */
+        .logo-container {
+            height: 44px; /* 匹配右侧两行文字的总高度 */
+            width: 44px;
+            margin-right: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            overflow: hidden;
         }
 
-        .logo-box img { width: 32px; height: 32px; object-fit: contain; }
-
-        .fallback {
-            width: 100%; height: 100%;
-            background: #f5f5f5; color: #bbb;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 500; font-size: 1.3rem;
+        .logo-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
         }
 
-        .info { overflow: hidden; }
+        .fallback-circle {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            color: #aaa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .info { overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
         .name {
             font-size: 1.05rem;
-            font-weight: 500; /* 要求2：网站名称不加这么粗 */
-            color: var(--text-name);
-            margin-bottom: 4px;
+            font-weight: 600; /* 要求：稍微加粗 */
+            color: var(--text-main);
+            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .desc {
-            font-size: 0.8rem;
-            color: var(--text-desc);
+            font-size: 0.85rem;
+            color: var(--text-gray);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        @media (max-width: 768px) {
-            aside { width: 70px; }
-            .brand, .desc, .name, .search-wrapper, .current-category-title { display: none; }
         }
     </style>
 </head>
 <body>
 
 <aside>
-    <div class="brand">💠 NavSphere</div>
-    <nav class="nav-group" id="sideNav"></nav>
+    <div class="brand">homepage</div> <nav class="nav-group" id="sideNav"></nav>
 </aside>
 
 <main>
     <div class="header-row">
-        <div class="current-category-title" id="catTitle">加载中...</div>
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="搜索本类内容...">
-        </div>
+        <div class="current-category-title" id="catTitle">自媒体</div>
     </div>
     <div class="grid" id="cardGrid"></div>
 </main>
 
 <script>
-    // 完整数据对齐原文件
+    // 仅保留三个分类
     const navData = [
         {
             name: "自媒体",
@@ -262,27 +236,12 @@
         }
     ];
 
-    /**
-     * 要求3：Logo 获取方式更换/增加（4级降级逻辑）
+    /** * 修改后的 Logo 获取逻辑：
+     * 规则：如果从 logos 文件夹获取不到，则用网站名首字
      */
-    function handleLogoError(img, url) {
-        const domain = new URL(url).hostname;
-        const retry = parseInt(img.getAttribute('data-retry') || 0);
-
-        const apis = [
-            `https://logo.clearbit.com/${domain}`,                 // 1. Clearbit (高清官方)
-            `https://api.iowen.cn/favicon/${domain}.png`,          // 2. iowen (国内较快)
-            `https://favicon.duckduckgo.com/ip3/${domain}.ico`,    // 3. DuckDuckGo (国外稳定)
-            `https://www.google.com/s2/favicons?domain=${domain}&sz=64` // 4. Google (终极备选)
-        ];
-
-        if (retry < apis.length) {
-            img.setAttribute('data-retry', retry + 1);
-            img.src = apis[retry];
-        } else {
-            img.style.display = 'none';
-            img.nextElementSibling.style.display = 'flex'; // 显示首字母占位
-        }
+    function handleLogoError(img) {
+        img.style.display = 'none';
+        img.nextElementSibling.style.display = 'flex'; // 显示首字
     }
 
     function renderCategory(catName) {
@@ -297,11 +256,9 @@
             const domain = new URL(site.url).hostname;
             grid.innerHTML += `
                 <a href="${site.url}" target="_blank" class="card">
-                    <div class="logo-box">
-                        <img src="logos/${site.name}.png" 
-                             onerror="handleLogoError(this, '${site.url}')" 
-                             alt="${site.name}">
-                        <div class="fallback" style="display:none">${site.name[0]}</div>
+                    <div class="logo-container">
+                        <img src="logos/${site.name}.png" onerror="handleLogoError(this)">
+                        <div class="fallback-circle" style="display:none">${site.name[0]}</div>
                     </div>
                     <div class="info">
                         <div class="name">${site.name}</div>
@@ -313,7 +270,6 @@
 
     function init() {
         const sideNav = document.getElementById('sideNav');
-        
         navData.forEach((cat, idx) => {
             const btn = document.createElement('div');
             btn.className = `nav-item ${idx === 0 ? 'active' : ''}`;
@@ -322,22 +278,10 @@
                 document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 renderCategory(cat.name);
-                document.getElementById('searchInput').value = ''; // 切换分类清空搜索
             };
             sideNav.appendChild(btn);
         });
-
-        // 默认渲染第一个分类
         renderCategory(navData[0].name);
-
-        // 搜索功能
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            document.querySelectorAll('.card').forEach(c => {
-                const match = c.querySelector('.name').textContent.toLowerCase().includes(val);
-                c.style.display = match ? 'flex' : 'none';
-            });
-        });
     }
 
     init();
