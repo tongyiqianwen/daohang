@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>精选导航 - 极简控制台</title>
+    <title>极简导航控制台</title>
     <style>
         :root {
             --sidebar-bg: #000000;
-            --sidebar-width: 260px;
+            --sidebar-width: 160px; /* 进一步收窄侧边栏 */
             --active-bg: #1a1a1a;
             --accent-color: #ffffff;
             --text-dim: #888888;
@@ -26,131 +26,108 @@
             color: #333;
         }
 
-        /* 宽大侧边栏 */
+        /* 黑色收窄侧边栏 */
         aside {
             width: var(--sidebar-width);
             background: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
-            padding-top: 50px;
+            padding-top: 40px;
             flex-shrink: 0;
             z-index: 10;
         }
 
         .tab-btn {
-            padding: 24px 40px;
+            padding: 16px 20px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 0.92rem;
             color: var(--text-dim);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 1px;
         }
 
-        .tab-btn:hover {
-            color: #fff;
-            background: var(--active-bg);
-        }
+        .tab-btn:hover { color: #fff; background: var(--active-bg); }
 
         .tab-btn.active {
             color: var(--accent-color);
             background: var(--active-bg);
             font-weight: 600;
+            border-right: 3px solid #fff;
         }
 
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 25%;
-            height: 50%;
-            width: 4px;
-            background: var(--accent-color);
-        }
-
-        /* 主体内容区 */
+        /* 主内容区 */
         main {
             flex-grow: 1;
-            padding: 60px;
+            padding: 30px 40px;
             overflow-y: auto;
-            scroll-behavior: smooth;
         }
 
-        .content-pane { display: none; animation: fadeIn 0.5s ease; }
-        .content-pane.active { display: block; }
+        .content-pane { display: none; }
+        .content-pane.active { display: block; animation: fadeIn 0.3s ease; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .sites-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
         }
 
         .site-card {
             display: flex;
             align-items: center;
-            padding: 16px 20px;
+            padding: 10px 14px;
             text-decoration: none;
             color: #444;
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            transition: all 0.3s;
+            border-radius: 6px;
+            transition: all 0.2s;
             background: #fff;
         }
 
         .site-card:hover {
             border-color: #000;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         .logo-box {
-            width: 28px;
-            height: 28px;
-            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .logo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
 
         .logo-placeholder {
-            width: 28px;
-            height: 28px;
-            background: #f5f5f5;
-            color: #ccc;
-            border-radius: 6px;
-            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            background: #f0f0f0;
+            color: #aaa;
+            border-radius: 4px;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
         }
 
         .site-name {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* 自定义滚动条 */
-        main::-webkit-scrollbar { width: 6px; }
-        main::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
-
-        @media (max-width: 900px) {
-            aside { width: 100px; }
-            .tab-btn { padding: 20px 10px; text-align: center; font-size: 0.9rem; letter-spacing: 0; }
-            main { padding: 30px; }
+        @media (max-width: 768px) {
+            aside { width: 70px; }
+            .tab-btn { padding: 15px 5px; font-size: 0.75rem; }
+            main { padding: 15px; }
         }
     </style>
 </head>
@@ -160,7 +137,7 @@
 <main id="mainContent"></main>
 
 <script>
-    // 完整数据源，按“财经、自媒体、AI”顺序排列
+    // 完整整合的数据源
     const navData = [
         {
             name: "财经",
@@ -221,7 +198,11 @@
             name: "自媒体",
             sites: [
                 { name: "新榜自媒体导航", url: "https://nav.newrank.cn/" },
+                { name: "番茄小说网", url: "https://fanqienovel.com/" },
+                { name: "七猫小说网", url: "http://www.qimao.com" },
+                { name: "起点中文网", url: "http://www.qidian.com" },
                 { name: "微信公众平台", url: "https://mp.weixin.qq.com/" },
+                { name: "今日头条", url: "https://www.toutiao.com/" },
                 { name: "抖音", url: "https://douyin.com/" },
                 { name: "抖音创作平台", url: "https://creator.douyin.com/" },
                 { name: "快手", url: "https://www.kuaishou.com/" },
@@ -231,19 +212,28 @@
                 { name: "哔哩哔哩创作中心", url: "https://member.bilibili.com/platform/home" },
                 { name: "知乎", url: "https://www.zhihu.com/" },
                 { name: "知乎创作中心", url: "https://www.zhihu.com/creator" },
-                { name: "微信视频号登录", url: "https://channels.weixin.qq.com/login.html" },
-                { name: "今日头条", url: "https://www.toutiao.com/" },
-                { name: "番茄小说网", url: "https://fanqienovel.com/" },
-                { name: "七猫小说网", url: "http://www.qimao.com" },
-                { name: "起点中文网", url: "http://www.qidian.com" },
+                { name: "视频号登录", url: "https://channels.weixin.qq.com/login" },
                 { name: "百家号", url: "https://baijiahao.baidu.com" },
                 { name: "企鹅号", url: "https://om.qq.com" },
                 { name: "大鱼号", url: "https://mp.dayu.com/" },
+                { name: "腾讯微视", url: "https://weishi.qq.com/" },
+                { name: "喜马拉雅", url: "https://www.ximalaya.com/" },
                 { name: "网易号", url: "https://mp.163.com/" },
-                { name: "搜狐号", url: "https://mp.sohu.com/mpfe/v4/login" },
-                { name: "腾讯视频创作平台", url: "https://mp.v.qq.com/" },
-                { name: "西瓜创作平台", url: "https://studio.ixigua.com/welcome" },
+                { name: "美篇", url: "https://www.meipian.cn/" },
+                { name: "博客园", url: "https://www.cnblogs.com/" },
                 { name: "简书", url: "https://www.jianshu.com" },
+                { name: "搜狐号", url: "https://mp.sohu.com" },
+                { name: "掘金", url: "https://juejin.cn/" },
+                { name: "新浪微博", url: "https://weibo.com" },
+                { name: "腾讯视频创作平台", url: "https://mp.v.qq.com/" },
+                { name: "西瓜创作平台", url: "https://studio.ixigua.com/" },
+                { name: "CSDN发布博客", url: "https://mp.csdn.net/" },
+                { name: "爱奇艺创作平台", url: "https://mp.iqiyi.com/" },
+                { name: "优酷创作平台", url: "https://mp.youku.com/" },
+                { name: "夸父资源社", url: "https://www.kuafuzys.com/" },
+                { name: "蜻蜓FM创作", url: "https://admin.qingting.fm/" },
+                { name: "阿里创作平台", url: "https://we.taobao.com/" },
+                { name: "即刻", url: "https://okjike.com/" },
                 { name: "豆瓣", url: "https://www.douban.com" }
             ]
         },
@@ -252,37 +242,71 @@
             sites: [
                 { name: "ChatGPT", url: "https://chat.openai.com" },
                 { name: "DeepSeek", url: "https://www.deepseek.com" },
-                { name: "Manus", url: "https://manus.im/" },
-                { name: "Kimi", url: "https://kimi.moonshot.cn/" },
                 { name: "豆包", url: "https://www.doubao.com" },
                 { name: "智谱AI", url: "https://chatglm.cn" },
                 { name: "通义千问", url: "https://tongyi.aliyun.com" },
                 { name: "腾讯混元", url: "https://hunyuan.tencent.com" },
+                { name: "Manus", url: "https://manus.im/" },
                 { name: "百度AI", url: "https://chat.baidu.com/" },
+                { name: "Kimi", url: "https://kimi.moonshot.cn/" },
                 { name: "讯飞星火", url: "https://xinghuo.xfyun.cn" },
-                { name: "Claude", url: "https://www.anthropic.com/" },
-                { name: "Google Gemini", url: "https://gemini.google.com" },
-                { name: "Github", url: "https://github.com/" }
+                { name: "Cursor", url: "https://cursor.com" },
+                { name: "即梦", url: "https://jimeng.jianying.com/" },
+                { name: "月之暗面", url: "https://www.moonshot.cn" },
+                { name: "文心一言", url: "https://yiyan.baidu.com" },
+                { name: "文心一格", url: "https://yige.baidu.com" },
+                { name: "Github Copilot", url: "https://github.com/features/copilot" },
+                { name: "Gemini", url: "https://gemini.google.com" },
+                { name: "扣子", url: "https://www.coze.cn/" },
+                { name: "Trae", url: "https://www.trae.com/" },
+                { name: "Claude", url: "https://claude.ai/" },
+                { name: "Github", url: "https://github.com" }
             ]
-        }
+        },
+        { name: "工具", sites: [{ name: "在线格式转换", url: "https://www.alltoall.net/" }] },
+        { name: "电子书", sites: [{ name: "Z-Library", url: "https://z-lib.gs/" }] },
+        { name: "资料", sites: [{ name: "虫部落快搜", url: "https://search.chongbuluo.com/" }] },
+        { name: "素材", sites: [{ name: "Pexels图库", url: "https://www.pexels.com/" }] },
+        { name: "教程", sites: [{ name: "B站教程", url: "https://www.bilibili.com/" }] }
     ];
 
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('mainContent');
 
+    // 多重途径获取 Logo 的逻辑
+    function handleLogoError(img, site) {
+        const domain = new URL(site.url).hostname;
+        
+        // 第一次失败：尝试网络 API 1 (iowen)
+        if (img.getAttribute('data-retry') === null) {
+            img.setAttribute('data-retry', '1');
+            img.src = `https://api.iowen.cn/favicon/${domain}.png`;
+        } 
+        // 第二次失败：尝试网络 API 2 (DuckDuckGo)
+        else if (img.getAttribute('data-retry') === '1') {
+            img.setAttribute('data-retry', '2');
+            img.src = `https://favicon.duckduckgo.com/ip3/${domain}.ico`;
+        } 
+        // 第三次失败：显示首字占位符
+        else {
+            img.style.display = 'none';
+            img.nextElementSibling.style.display = 'flex';
+        }
+    }
+
     function init() {
         navData.forEach((cat, index) => {
-            // 按钮
+            // 创建侧边栏按钮
             const btn = document.createElement('div');
             btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
             btn.textContent = cat.name;
-            btn.onclick = () => showTab(index);
+            btn.onclick = () => switchTab(index);
             sidebar.appendChild(btn);
 
-            // 内容
+            // 创建内容面板
             const pane = document.createElement('div');
             pane.className = `content-pane ${index === 0 ? 'active' : ''}`;
-            pane.id = `tab-${index}`;
+            pane.id = `pane-${index}`;
             
             const grid = document.createElement('div');
             grid.className = 'sites-grid';
@@ -292,7 +316,7 @@
                     <a href="${site.url}" target="_blank" class="site-card">
                         <div class="logo-box">
                             <img src="logos/${site.name}.png" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" 
+                                 onerror="handleLogoError(this, ${JSON.stringify(site).replace(/"/g, '&quot;')})" 
                                  alt="${site.name}">
                             <div class="logo-placeholder" style="display:none">${site.name.charAt(0)}</div>
                         </div>
@@ -300,15 +324,19 @@
                     </a>
                 `;
             });
-            
             pane.appendChild(grid);
             mainContent.appendChild(pane);
         });
     }
 
-    function showTab(idx) {
-        document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-        document.querySelectorAll('.content-pane').forEach((p, i) => p.classList.toggle('active', i === idx));
+    // 修复后的切换功能
+    function switchTab(idx) {
+        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === idx);
+        });
+        document.querySelectorAll('.content-pane').forEach((pane, i) => {
+            pane.classList.toggle('active', i === idx);
+        });
     }
 
     init();
