@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage - 简约版</title>
+    <title>Homepage - 常用精选版</title>
     <style>
         :root {
             --bg-side: #fafafa;
@@ -18,14 +18,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
             background-color: var(--bg-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 左侧边栏 - 文字变大变灰加粗 */
+        /* 左侧边栏 - 稍微加粗/灰色/大号 */
         aside {
             width: var(--sidebar-width);
             background: var(--bg-side);
@@ -39,29 +40,30 @@
         .brand {
             padding: 10px 24px 30px;
             font-size: 1.5rem;
-            font-weight: 900;
+            font-weight: 700;
             color: #000;
-            text-transform: lowercase; /* 对应截图 homepage 风格 */
+            letter-spacing: -0.5px;
         }
 
         .nav-group { flex-grow: 1; overflow-y: auto; padding: 0 12px; }
 
         .nav-item {
             padding: 12px 20px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border-radius: 10px;
             cursor: pointer;
-            color: var(--text-gray); /* 要求：文字灰色 */
-            font-size: 1.1rem;      /* 要求：大一号 */
-            font-weight: 700;       /* 要求：加粗 */
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            font-weight: 500; /* 稍微加粗一点点 */
             transition: all 0.2s;
         }
 
-        .nav-item:hover { color: #333; }
+        .nav-item:hover { color: #333; background: #f0f0f0; }
         .nav-item.active {
             color: var(--accent);
             background: #fff;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            font-weight: 600;
         }
 
         /* 右侧内容区 */
@@ -71,76 +73,81 @@
             padding: 30px 50px;
         }
 
-        .header-row {
-            margin-bottom: 40px;
-        }
+        .header-row { margin-bottom: 35px; }
 
         .current-category-title {
-            font-size: 1.4rem;
-            font-weight: 600; /* 要求：稍微加粗 */
+            font-size: 1.3rem;
+            font-weight: 600; /* 稍微加粗一点点 */
             color: #1a1a1a;
         }
 
         /* 卡片网格 */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
         }
 
+        /* 恢复圆角矩形和阴影效果 */
         .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
             text-decoration: none;
             display: flex;
             align-items: center;
-            transition: transform 0.2s;
-            padding: 10px;
-            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        .card:hover { transform: translateX(5px); }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: #d1d1d1;
+        }
 
-        /* Logo 样式：去掉外框，高度自适应 */
-        .logo-container {
-            height: 44px; /* 匹配右侧两行文字的总高度 */
-            width: 44px;
-            margin-right: 16px;
+        /* Logo 容器：高度与名称+说明一致，宽高相同 */
+        .logo-box {
+            width: 42px; /* 固定高度/宽度 */
+            height: 42px;
+            margin-right: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
-        .logo-container img {
-            max-height: 100%;
-            max-width: 100%;
+        .logo-box img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
-        .fallback-circle {
-            width: 40px;
-            height: 40px;
-            background: #f0f0f0;
-            color: #aaa;
-            border-radius: 50%;
+        .fallback-box {
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            color: #bbb;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
-        .info { overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+        .info { overflow: hidden; line-height: 1.4; }
         .name {
-            font-size: 1.05rem;
-            font-weight: 600; /* 要求：稍微加粗 */
+            font-size: 0.95rem;
+            font-weight: 600; /* 稍微加粗一点点 */
             color: var(--text-main);
-            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .desc {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-gray);
             white-space: nowrap;
             overflow: hidden;
@@ -151,19 +158,64 @@
 <body>
 
 <aside>
-    <div class="brand">homepage</div> <nav class="nav-group" id="sideNav"></nav>
+    <div class="brand">homepage</div>
+    <nav class="nav-group" id="sideNav"></nav>
 </aside>
 
 <main>
     <div class="header-row">
-        <div class="current-category-title" id="catTitle">自媒体</div>
+        <div class="current-category-title" id="catTitle">常用站点</div>
     </div>
     <div class="grid" id="cardGrid"></div>
 </main>
 
 <script>
-    // 仅保留三个分类
     const navData = [
+        {
+            name: "常用站点",
+            sites: [
+                { name: "百度", url: "https://www.baidu.com" }, { name: "淘宝网", url: "https://www.taobao.com" },
+                { name: "京东", url: "https://www.jd.com" }, { name: "腾讯视频", url: "https://v.qq.com" },
+                { name: "爱奇艺", url: "https://www.iqiyi.com" }, { name: "微博", url: "https://weibo.com" },
+                { name: "网易", url: "https://www.163.com" }, { name: "新浪", url: "https://www.sina.com.cn" },
+                { name: "知乎", url: "https://www.zhihu.com" }, { name: "哔哩哔哩", url: "https://www.bilibili.com" },
+                { name: "豆瓣", url: "https://www.douban.com" }, { name: "今日头条", url: "https://www.toutiao.com" },
+                { name: "拼多多", url: "https://www.pinduoduo.com" }, { name: "去哪儿", url: "https://www.qunar.com" },
+                { name: "携程", url: "https://www.ctrip.com" }, { name: "字节跳动", url: "https://www.bytedance.com" },
+                { name: "CSDN", url: "https://www.csdn.net" }, { name: "Github", url: "https://github.com" },
+                { name: "美团", url: "https://www.meituan.com" }, { name: "高德地图", url: "https://www.amap.com" }
+            ]
+        },
+        {
+            name: "财经",
+            sites: [
+                { name: "东方财富网", url: "https://www.eastmoney.com/" }, { name: "新浪财经", url: "https://finance.sina.com.cn/" },
+                { name: "和讯网", url: "https://www.hexun.com/" }, { name: "腾讯财经", url: "https://finance.qq.com/" },
+                { name: "雪球", url: "https://xueqiu.com/" }, { name: "金融界", url: "https://www.jrj.com.cn/" },
+                { name: "问财", url: "https://www.iwencai.com/" }, { name: "亿牛网", url: "https://eniu.com/" },
+                { name: "全景网", url: "https://www.p5w.net/" }, { name: "第一财经", url: "https://www.yicai.com/" },
+                { name: "中国证券报", url: "https://www.cs.com.cn/" }, { name: "上海证券报", url: "https://www.cnstock.com/" },
+                { name: "证券时报", url: "https://www.stcn.com/" }, { name: "中金在线", url: "https://www.cnfol.com/" },
+                { name: "财联社", url: "https://www.cls.cn/" }, { name: "华尔街见闻", url: "https://wallstreetcn.com/" },
+                { name: "英为财情", url: "https://cn.investing.com/" }, { name: "巨潮资讯网", url: "http://www.cninfo.com.cn/" },
+                { name: "私募排排网", url: "https://www.simuwang.com/" }, { name: "淘股吧", url: "https://www.tgb.cn/" },
+                { name: "Wind资讯", url: "https://www.wind.com.cn/" }, { name: "同花顺财经", url: "https://www.10jqka.com.cn/" },
+                { name: "大智慧财经", url: "https://www.gw.com.cn/" }, { name: "集思录", url: "https://www.jisilu.cn/" },
+                { name: "经济观察网", url: "https://www.eeo.com.cn/" }, { name: "每日经济新闻", url: "https://www.nbd.com.cn/" },
+                { name: "21世纪经济报道", url: "https://www.21jingji.com/" }, { name: "界面新闻", url: "https://www.jiemian.com/" },
+                { name: "金十数据", url: "https://www.jin10.com/" }, { name: "中财网", url: "https://www.cfi.net.cn/" },
+                { name: "证券之星", url: "https://www.stockstar.com/" }, { name: "中登结算", url: "http://www.chinaclear.cn/" },
+                { name: "证监会", url: "http://www.csrc.gov.cn/" }, { name: "野马财经", url: "https://www.yemacaijing.com/" },
+                { name: "亿欧网", url: "https://www.iyiou.com/" }, { name: "未央网", url: "https://www.weiyangx.com/" },
+                { name: "投资界", url: "https://www.pedaily.cn/" }, { name: "新芽NewSeed", url: "https://www.newseed.cn/" },
+                { name: "清科研究中心", url: "https://www.pedata.cn/" }, { name: "36氪", url: "https://36kr.com/" },
+                { name: "虎嗅网", url: "https://www.huxiu.com/" }, { name: "钛媒体", url: "https://www.tmtpost.com/" },
+                { name: "铅笔道", url: "https://www.pencilnews.cn/" }, { name: "财新网", url: "https://www.caixin.com/" },
+                { name: "中国金融新闻网", url: "https://www.financialnews.com.cn/" }, { name: "萝卜投研", url: "https://robo.datayes.com/" },
+                { name: "天才股票网", url: "http://www.11159.com/" }, { name: "金投期货网", url: "https://futures.cngold.org/" },
+                { name: "理想论坛", url: "https://www.55188.com/" }, { name: "慧博投研", url: "https://www.hibor.com.cn/" }
+            ]
+        },
         {
             name: "自媒体",
             sites: [
@@ -204,44 +256,14 @@
                 { name: "Github", url: "https://github.com" }
             ]
         },
-        {
-            name: "财经",
-            sites: [
-                { name: "东方财富网", url: "https://www.eastmoney.com/" }, { name: "新浪财经", url: "https://finance.sina.com.cn/" },
-                { name: "和讯网", url: "https://www.hexun.com/" }, { name: "腾讯财经", url: "https://finance.qq.com/" },
-                { name: "雪球", url: "https://xueqiu.com/" }, { name: "金融界", url: "https://www.jrj.com.cn/" },
-                { name: "问财", url: "https://www.iwencai.com/" }, { name: "亿牛网", url: "https://eniu.com/" },
-                { name: "全景网", url: "https://www.p5w.net/" }, { name: "第一财经", url: "https://www.yicai.com/" },
-                { name: "中国证券报", url: "https://www.cs.com.cn/" }, { name: "上海证券报", url: "https://www.cnstock.com/" },
-                { name: "证券时报", url: "https://www.stcn.com/" }, { name: "中金在线", url: "https://www.cnfol.com/" },
-                { name: "财联社", url: "https://www.cls.cn/" }, { name: "华尔街见闻", url: "https://wallstreetcn.com/" },
-                { name: "英为财情", url: "https://cn.investing.com/" }, { name: "巨潮资讯网", url: "http://www.cninfo.com.cn/" },
-                { name: "私募排排网", url: "https://www.simuwang.com/" }, { name: "淘股吧", url: "https://www.tgb.cn/" },
-                { name: "Wind资讯", url: "https://www.wind.com.cn/" }, { name: "同花顺财经", url: "https://www.10jqka.com.cn/" },
-                { name: "大智慧财经", url: "https://www.gw.com.cn/" }, { name: "集思录", url: "https://www.jisilu.cn/" },
-                { name: "经济观察网", url: "https://www.eeo.com.cn/" }, { name: "每日经济新闻", url: "https://www.nbd.com.cn/" },
-                { name: "21世纪经济报道", url: "https://www.21jingji.com/" }, { name: "界面新闻", url: "https://www.jiemian.com/" },
-                { name: "金十数据", url: "https://www.jin10.com/" }, { name: "中财网", url: "https://www.cfi.net.cn/" },
-                { name: "证券之星", url: "https://www.stockstar.com/" }, { name: "中登结算", url: "http://www.chinaclear.cn/" },
-                { name: "证监会", url: "http://www.csrc.gov.cn/" }, { name: "野马财经", url: "https://www.yemacaijing.com/" },
-                { name: "亿欧网", url: "https://www.iyiou.com/" }, { name: "未央网", url: "https://www.weiyangx.com/" },
-                { name: "投资界", url: "https://www.pedaily.cn/" }, { name: "新芽NewSeed", url: "https://www.newseed.cn/" },
-                { name: "清科研究中心", url: "https://www.pedata.cn/" }, { name: "36氪", url: "https://36kr.com/" },
-                { name: "虎嗅网", url: "https://www.huxiu.com/" }, { name: "钛媒体", url: "https://www.tmtpost.com/" },
-                { name: "铅笔道", url: "https://www.pencilnews.cn/" }, { name: "财新网", url: "https://www.caixin.com/" },
-                { name: "中国金融新闻网", url: "https://www.financialnews.com.cn/" }, { name: "萝卜投研", url: "https://robo.datayes.com/" },
-                { name: "天才股票网", url: "http://www.11159.com/" }, { name: "金投期货网", url: "https://futures.cngold.org/" },
-                { name: "理想论坛", url: "https://www.55188.com/" }, { name: "慧博投研", url: "https://www.hibor.com.cn/" }
-            ]
-        }
+        { name: "工具", sites: [{ name: "在线格式转换", url: "https://www.alltoall.net/" }] },
+        { name: "素材", sites: [{ name: "Pexels图库", url: "https://www.pexels.com/" }] },
+        { name: "教程", sites: [{ name: "B站教程", url: "https://www.bilibili.com/" }] }
     ];
 
-    /** * 修改后的 Logo 获取逻辑：
-     * 规则：如果从 logos 文件夹获取不到，则用网站名首字
-     */
     function handleLogoError(img) {
         img.style.display = 'none';
-        img.nextElementSibling.style.display = 'flex'; // 显示首字
+        img.nextElementSibling.style.display = 'flex';
     }
 
     function renderCategory(catName) {
@@ -256,9 +278,9 @@
             const domain = new URL(site.url).hostname;
             grid.innerHTML += `
                 <a href="${site.url}" target="_blank" class="card">
-                    <div class="logo-container">
+                    <div class="logo-box">
                         <img src="logos/${site.name}.png" onerror="handleLogoError(this)">
-                        <div class="fallback-circle" style="display:none">${site.name[0]}</div>
+                        <div class="fallback-box" style="display:none">${site.name[0]}</div>
                     </div>
                     <div class="info">
                         <div class="name">${site.name}</div>
